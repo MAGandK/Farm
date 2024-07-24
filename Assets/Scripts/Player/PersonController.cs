@@ -20,7 +20,6 @@ public class PersonController : MonoBehaviour
     [SerializeField] private float _animationPlayTransition;
     private int _moveXAnimationParametrId;
     private int _moveYAnimationParametrId;
-    private int _jumpAnimation;
     private int _runAnimationParamId;
     private int _idleAnimationParamId;
     
@@ -42,7 +41,6 @@ public class PersonController : MonoBehaviour
         _animator = GetComponent<Animator>();
         _moveXAnimationParametrId = Animator.StringToHash("MovementX");
         _moveYAnimationParametrId = Animator.StringToHash("MovementY");
-        _jumpAnimation = Animator.StringToHash("Jump");
         _runAnimationParamId = Animator.StringToHash("isRunning");
         _idleAnimationParamId = Animator.StringToHash("isIdle");
         
@@ -57,7 +55,6 @@ public class PersonController : MonoBehaviour
     {
         GroundCheak();
         MovedCharacter();
-        JumpCharacter();
         RotateToDirection();
     }
 
@@ -70,18 +67,6 @@ public class PersonController : MonoBehaviour
             _playerVelocity.y = 0;
         }
     }
-    private void JumpCharacter()
-    {
-        if (isGround && isJump)
-        {
-            _playerVelocity.y = Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue);
-            _animator.CrossFade(_jumpAnimation,_animationPlayTransition);
-            isJump = false;
-        }
-
-        _playerVelocity.y += _gravityValue * Time.deltaTime;
-        _characterController.Move(_playerVelocity * Time.deltaTime);
-    }
     private void MovedCharacter()
     {
         _currentBleandAnim = Vector2.SmoothDamp(_currentBleandAnim,_moveInput, ref _animationVelocity, _animSmoothTime);
@@ -93,18 +78,16 @@ public class PersonController : MonoBehaviour
         
         _animator.SetFloat(_moveXAnimationParametrId,_currentBleandAnim.x);
         _animator.SetFloat(_moveYAnimationParametrId,_currentBleandAnim.y);
-        
-        _animator.SetBool(_runAnimationParamId, isRun);
         _animator.SetBool("isWalk", _moveInput != Vector3.zero && !isRun); 
         
-        if (_moveInput == Vector3.zero && !isRun )
-        {
-            _animator.SetBool(_idleAnimationParamId, true);
-        }
-        else
-        {
-            _animator.SetBool(_idleAnimationParamId, false);
-        }
+         if (_moveInput == Vector3.zero && !isRun )
+         {
+             _animator.SetBool(_idleAnimationParamId, true);
+         }
+         else
+         {
+             _animator.SetBool(_idleAnimationParamId, false);
+         }
     }
 
     private void RotateToDirection()

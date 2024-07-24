@@ -20,11 +20,8 @@ public class InputController : MonoBehaviour
        _actionMove = _inputController.actions["Move"];
        _actionJump = _inputController.actions["Jump"];
        _actionRun = _inputController.actions["Run"];
-
-       Cursor.lockState = CursorLockMode.Locked;
    }
 
-   // }
    private void Update()
    {
        Moving();
@@ -49,5 +46,4 @@ public class InputController : MonoBehaviour
        bool isRunning = _actionRun.ReadValue<float>() > 0; 
        _personController.isRun = isRunning;
    }
- 
 }

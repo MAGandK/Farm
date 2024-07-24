@@ -77,22 +77,49 @@ public class DisplayInventory : MonoBehaviour
 
     private void OnDragged(GameObject o)
     {
-        Debug.Log("Тащим");
+        if (_mouseItem.obj !=null)
+        {
+            _mouseItem.obj.GetComponent<RectTransform>().position = Input.mousePosition;
+        }
     }
 
-    private void OnDragEnd(GameObject o)
+    private void OnDragEnd(GameObject obj)
     {
-        Debug.Log("Окончание перетаскивание предмета");
+        if (_mouseItem.hoverObj)
+        {
+            _inventory.MoveItem(_itemsDisplayed[obj], _itemsDisplayed[_mouseItem.hoverObj]);
+        }
+        else
+        {
+            _inventory.RemoveItem(_itemsDisplayed[obj].Item);
+        }
+        
+        Destroy(_mouseItem.obj);
+        _mouseItem.item = null;
     }
 
-    private void OnDragBegin(GameObject o)
+    private void OnDragBegin(GameObject obj)
     {
-       //var mauuseObject = new Game////
+        var mauseObject = new GameObject();
+        var rTransform = mauseObject.AddComponent<RectTransform>();
+        rTransform.sizeDelta = new Vector2(50, 50);
+        mauseObject.transform.SetParent(transform.parent);
+
+        if (_itemsDisplayed[obj].ID >= 0)
+        {
+            var image = mauseObject.AddComponent<Image>();
+            image.sprite = _inventory.DataBase.GetItem[-_itemsDisplayed[obj].ID].uiDisplay;
+            image.raycastTarget = false;
+        }
+
+        _mouseItem.obj = mauseObject;
+        _mouseItem.item = _itemsDisplayed[obj];
     }
 
-    private void OnExit(GameObject o)
+    private void OnExit(GameObject obj)
     {
-        Debug.Log("цвет меняем на старый");
+        _mouseItem.hoverObj = null;
+        _mouseItem.hoverObj = null;
     }
 
     private void OnEnter(GameObject obj)
@@ -131,4 +158,5 @@ public class MouseItem
     public GameObject obj;
     public GameObject hoverObj;
     public InventorySlot hoverItem;
+    public InventorySlot item;
 }

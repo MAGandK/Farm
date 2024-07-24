@@ -16,6 +16,8 @@ MonoBehaviour:
   uiDisplay: {fileID: 21300000, guid: bb7faf4c850ef48cdb33c2bd17737619, type: 3}
   type: 1
   description: 
-  Ripe: {fileID: 0}
-  RipeType1: {fileID: 0}
-  RipeType2: {fileID: 0}
+  RipenType1: 0
+  RipenType2: 1
+  RipenType3: 2
+  RipenReady: 3
+  isPipen: 0

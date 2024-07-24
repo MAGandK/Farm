@@ -11,7 +11,6 @@ public class InputController : MonoBehaviour
    private InputAction _actionMove;
    private InputAction _actionJump;
    private InputAction _actionRun;
-   private InputAction _actionShoot;
    #endregion
    private void Awake()
    {
@@ -20,18 +19,11 @@ public class InputController : MonoBehaviour
 
        _actionMove = _inputController.actions["Move"];
        _actionJump = _inputController.actions["Jump"];
-       _actionShoot = _inputController.actions["Shoot"];
        _actionRun = _inputController.actions["Run"];
 
        Cursor.lockState = CursorLockMode.Locked;
    }
-   // private void OnEnable()
-   // {
-   //     _actionShoot.performed += _ => Shoting();
-   // }
-   // private void Shoting()
-   // {
-   //     _personController.ShootGun();
+
    // }
    private void Update()
    {
@@ -57,8 +49,5 @@ public class InputController : MonoBehaviour
        bool isRunning = _actionRun.ReadValue<float>() > 0; 
        _personController.isRun = isRunning;
    }
-   // private void OnDisable()
-   // {
-   //     _actionShoot.performed -= _ => Shoting();
-   // }
+ 
 }
